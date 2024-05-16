@@ -8,9 +8,9 @@ import (
 
 var Font map[rune][]string
 
-func MapFont(banner string, toMap []rune) {
+func MapFont() {
 	Font = make(map[rune][]string)
-	file, err := os.Open("./templates/" + banner)
+	file, err := os.Open("./templates/" + OptionsData.Banner)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -19,14 +19,14 @@ func MapFont(banner string, toMap []rune) {
 	lineCount := 0
 	rIndex := 0
 	for scanner.Scan() {
-		if lineCount == ((int(toMap[rIndex])-31)*9)-9 {
+		if lineCount == ((int(OptionsData.ToMap[rIndex])-31)*9)-9 {
 			i := 0
 			for i < 8 && scanner.Scan() {
-				Font[toMap[rIndex]] = append(Font[toMap[rIndex]], scanner.Text())
+				Font[OptionsData.ToMap[rIndex]] = append(Font[OptionsData.ToMap[rIndex]], scanner.Text())
 				lineCount++
 				i++
 			}
-			if rIndex != len(toMap)-1 {
+			if rIndex != len(OptionsData.ToMap)-1 {
 				rIndex++
 			}
 		}

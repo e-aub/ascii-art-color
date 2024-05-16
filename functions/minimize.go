@@ -6,8 +6,8 @@ import (
 	"strings"
 )
 
-func Minimize(str string) []rune {
-	str = strings.ReplaceAll(str, "\n", "")
+func Minimize() {
+	str := strings.ReplaceAll(OptionsData.Input, "\n", "")
 	var result []rune
 	for _, letter := range str {
 		if letter < ' ' || letter > '~' {
@@ -17,7 +17,8 @@ func Minimize(str string) []rune {
 			result = append(result, letter)
 		}
 	}
-	return sortRunes(result)
+
+	OptionsData.ToMap = sortRunes(result)
 }
 
 func sortRunes(runes []rune) []rune {

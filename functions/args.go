@@ -6,17 +6,6 @@ import (
 	"regexp"
 )
 
-type Options struct {
-	Input      string
-	OutputFile string
-	Output     string
-	Color      string
-	ToColor    string
-	Banner     string
-}
-
-var OptionsData Options
-
 func ArgsChecker(args []string) {
 	if len(args) < 2 || len(args) > 5 {
 		fmt.Println("Usage: go run . [OPTION] [STRING]\n\nEX: go run . --color=<color> <letters to be colored> \"something\"")
@@ -30,11 +19,17 @@ func ArgsChecker(args []string) {
 	outputCheck := regexp.MustCompile(`^(?:--output=)(\w+\W*\w*\.txt)$`)
 
 	if len(args) == 2 {
-		if colorPattern.MatchString(args[1]) || outputPattern.MatchString(args[1]) {
+		if colorPattern.MatchString(args[1]) {
 			fmt.Println("Usage: go run . [OPTION] [STRING]\n\nEX: go run . --color=<color> <letters to be colored> \"something\"")
 			os.Exit(0)
 		}
+		if outputPattern.MatchString(args[1]) {
+			fmt.Println("Usage: go run . [OPTION] [STRING]\n\nExample: go run . --output=<fileName.txt> something standard")
+			os.Exit(0)
+		}
+
 		OptionsData.Input = args[1]
+		OptionsData.Banner = "standard.txt"
 		return
 	}
 

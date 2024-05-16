@@ -2,8 +2,8 @@ package functions
 
 import "strings"
 
-func Split(input string) []string {
-	result := strings.Split(input, "\\n")
+func InputSplicer() {
+	result := strings.Split(OptionsData.Input, "\\n")
 	for index, line := range result {
 		if line == "" {
 			result[index] = "\\n"
@@ -13,7 +13,7 @@ func Split(input string) []string {
 		result = result[:len(result)-1]
 
 	}
-	return result
+	OptionsData.SplicedInput = result
 }
 
 func isSuccessive(str []string) bool {

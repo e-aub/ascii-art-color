@@ -1,7 +1,6 @@
 package functions
 
 import (
-	"log"
 	"sort"
 	"strings"
 )
@@ -11,7 +10,8 @@ func Minimize() {
 	var result []rune
 	for _, letter := range str {
 		if letter < ' ' || letter > '~' {
-			log.Fatalln("Invalid Input : characters must be between ' ' and '~'")
+			OptionsData.ErrorMsg = "Invalid Character (" + string(letter) + ")\n\nThe characters must be between ' ' and '~'"
+			return
 		}
 		if !strings.Contains(string(result), string(letter)) {
 			result = append(result, letter)
@@ -20,7 +20,7 @@ func Minimize() {
 
 	OptionsData.ToMap = sortRunes(result)
 }
-
+//sort the input string
 func sortRunes(runes []rune) []rune {
 	sort.Slice(runes, func(i, j int) bool {
 		return runes[i] < runes[j]

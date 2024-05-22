@@ -2,7 +2,6 @@ package functions
 
 import (
 	"bufio"
-	"log"
 	"os"
 )
 
@@ -12,7 +11,7 @@ func MapFont() {
 	Font = make(map[rune][]string)
 	file, err := os.Open("./templates/" + OptionsData.Banner)
 	if err != nil {
-		log.Fatal(err)
+		OptionsData.ErrorMsg = "Invalid Banner"
 	}
 	defer file.Close()
 	scanner := bufio.NewScanner(file)

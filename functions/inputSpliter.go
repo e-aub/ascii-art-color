@@ -2,7 +2,7 @@ package functions
 
 import "strings"
 
-func InputSplicer() {
+func Split(){
 	result := strings.Split(OptionsData.Input, "\\n")
 	for index, line := range result {
 		if line == "" {

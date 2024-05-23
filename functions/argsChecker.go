@@ -34,6 +34,8 @@ func FlagChecker(args []string) {
 	colorPattern := regexp.MustCompile(`^-{1,2}color`)
 	colorCheck := regexp.MustCompile(`^(?:--color=)(\w+)$`)
 
+	validBanner := regexp.MustCompile(`^standard|shadow|enigma|nirvana$`)
+
 	if len(args) == 1 {
 		if outputPattern.MatchString(args[0]) {
 			UsageErr()
@@ -70,16 +72,19 @@ func FlagChecker(args []string) {
 				OptionsData.ErrorMsg = "Unsupported Color"
 				return
 			}
-			args = args[1:]
 
 			OptionsData.Color = "\033[38;2;" + colorCode + "m"
-			if len(args) > 1 {
-				OptionsData.ToColor = args[0]
-				OptionsData.args = args[1:]
-				return
+			args = args[1:]
+
+			if len(args) == 2 {
+				if validBanner.MatchString(args[1]) {
+					OptionsData.args = args
+					return
+				}
 			}
 
-			OptionsData.args = args
+			OptionsData.ToColor = args[0]
+			OptionsData.args = args[1:]
 			return
 		}
 

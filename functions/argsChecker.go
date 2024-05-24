@@ -1,6 +1,7 @@
 package functions
 
 import (
+	"fmt"
 	"regexp"
 	"strings"
 )
@@ -15,7 +16,7 @@ type Options struct {
 	Output         string
 	Color          string
 	ToColor        string
-	ToColorIndexes [][][]int
+	ToColorIndexes []int
 	Banner         string
 	ErrorMsg       string
 }
@@ -69,18 +70,33 @@ func FlagChecker(args []string) {
 
 			colorCode, ok := Colors[strings.ToLower(color[1])]
 			if !ok {
-				OptionsData.ErrorMsg = "Unsupported Color"
+				OptionsData.ErrorMsg = "Available colors:\n\n"
+				for name, color := range Colors {
+					if name == "reset" || color == "" {
+						continue
+					}
+					OptionsData.ErrorMsg += "\033[38;2;" + color + "m" + name + Colors["reset"] + ", "
+				}
 				return
 			}
 
 			OptionsData.Color = "\033[38;2;" + colorCode + "m"
+
 			args = args[1:]
 
 			if len(args) == 2 {
 				if validBanner.MatchString(args[1]) {
 					OptionsData.args = args
-					return
+				} else {
+					OptionsData.ToColor = args[0]
+					OptionsData.args = args[1:]
 				}
+				return
+			}
+
+			if len(args) == 1 {
+				OptionsData.args = args
+				return
 			}
 
 			OptionsData.ToColor = args[0]
@@ -110,6 +126,7 @@ func ArgsChecker() {
 			OptionsData.Banner = OptionsData.args[1]
 		}
 	}
+	fmt.Println("Banner:", OptionsData.Banner, "input:", OptionsData.Input, "toColor:", OptionsData.ToColor)
 }
 
 // UsageErr prints the usage error message

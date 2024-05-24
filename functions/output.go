@@ -8,54 +8,59 @@ import (
 // OutputBuilder builds the output string
 func OutputBuilder() {
 	result := ""
-	for PartIndex, part := range OptionsData.SplicedInput {
+	index := 0
+	for _, part := range OptionsData.SplicedInput {
+		if OptionsData.ErrorMsg != "" {
+			break
+		}
+
 		if part == "\\n" {
 			result += "\n"
 			continue
 		}
 		count := 0
-
-		if OptionsData.ErrorMsg != "" {
-			break
-		}
-
-		partToColorIndex := 0
 		for count < 8 {
+			if OptionsData.ErrorMsg != "" {
+				break
+			}
 			for i, letter := range part {
-				if OptionsData.Color != "" {
-					if OptionsData.ToColor != "" {
-						if OptionsData.ToColorIndexes == nil || len(OptionsData.ToColorIndexes) == 0 {
-							OptionsData.ErrorMsg = "Can't find the target to color"
-							return
-						}
+				if OptionsData.ErrorMsg != "" {
+					break
+				}
 
-						if OptionsData.ToColorIndexes[PartIndex] == nil || len(OptionsData.ToColorIndexes[PartIndex]) == 0 {
-							continue
-						}
+				if OptionsData.Color == "" {
+					result += Font[letter][count]
+					continue
+				}
 
-						if len(OptionsData.ToColorIndexes[PartIndex]) >= partToColorIndex {
-							fmt.Println(len(OptionsData.ToColorIndexes[PartIndex]))
-							result += Font[letter][count]
-							continue
-						}
+				if OptionsData.ToColor == "" {
+					result += OptionsData.ToColor + Font[letter][count] + Colors["reset"]
+					continue
+				}
 
-						if i > OptionsData.ToColorIndexes[PartIndex][partToColorIndex][1] {
-							partToColorIndex++
-							continue
-						}
+				if index+1 > len(OptionsData.ToColorIndexes) {
+					result += Font[letter][count]
+					continue
+				}
 
-						if i >= OptionsData.ToColorIndexes[PartIndex][partToColorIndex][0] && i <= OptionsData.ToColorIndexes[PartIndex][partToColorIndex][1] {
-							result += OptionsData.Color + Font[letter][count] + Colors["reset"]
-						} else {
-							result += Font[letter][count]
-						}
-					} else {
-						result += OptionsData.Color + Font[letter][count] + Colors["reset"]
+				first := OptionsData.ToColorIndexes[index]
+				last := OptionsData.ToColorIndexes[index+1]
+
+				if i >= first && i <= last {
+					result += OptionsData.Color + Font[letter][count]
+
+					if i == last {
+						result += Colors["reset"]
 					}
 				} else {
 					result += Font[letter][count]
 				}
+
+				if i == last && count == 7 {
+					index += 2
+				}
 			}
+
 			result += "\n"
 			count++
 		}

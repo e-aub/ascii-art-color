@@ -87,6 +87,7 @@ var Colors map[string]string = map[string]string{
 	"mediumturquoise":      "72;209;204",
 	"lightseagreen":        "32;178;170",
 	"sienna":               "160;82;45",
+	"royalpurple":          "29;0;110",
 	"random":               "",
 }
 
@@ -97,22 +98,27 @@ func RandomColor() {
 }
 
 func ToColorIndexes() {
-	for _, part := range OptionsData.SplicedInput {
-		j := 0
-		OptionsData.ToColorIndexes = append(OptionsData.ToColorIndexes, [][]int{})
-		if part == "\\n" {
-			j++
+	if OptionsData.ToColor == "" {
+		return
+	}
+
+	index := -1
+	for i := 0; i <= len(OptionsData.Input)-len(OptionsData.ToColor); i++ {
+		index++
+		if OptionsData.Input[i:i+2] == "\\n" {
+			// OptionsData.ToColorIndexes = append(OptionsData.ToColorIndexes, -1)
+			index = -1
+			i += 1
 			continue
 		}
 
-		for i := 0; i <= len(part)-len(OptionsData.ToColor); i++ {
-			if part[i:i+len(OptionsData.ToColor)] == OptionsData.ToColor {
-				OptionsData.ToColorIndexes[j] = append(OptionsData.ToColorIndexes[j], []int{i, i + len(OptionsData.ToColor) - 1})
-				i += len(OptionsData.ToColor) - 1
-				j++
-			}
+		if OptionsData.Input[i:i+len(OptionsData.ToColor)] == OptionsData.ToColor {
+			OptionsData.ToColorIndexes = append(OptionsData.ToColorIndexes, index, index+len(OptionsData.ToColor)-1)
+			i += len(OptionsData.ToColor) - 1
+			index += len(OptionsData.ToColor) - 1
+			continue
 		}
-
 	}
+
 	fmt.Println(OptionsData.ToColorIndexes)
 }

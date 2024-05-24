@@ -23,6 +23,8 @@ func main() {
 		return
 	}
 
+	f.ToColorIndexes()
+
 	// Minimize the input string
 	f.Minimize()
 	if f.OptionsData.ErrorMsg != "" {
@@ -37,7 +39,6 @@ func main() {
 	}
 	// Split the input string and Build the output
 	f.Split()
-	f.ToColorIndexes()
 
 	f.OutputBuilder()
 	if f.OptionsData.ErrorMsg != "" {

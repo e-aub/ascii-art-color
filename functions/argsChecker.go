@@ -16,7 +16,7 @@ type Options struct {
 	Output         string
 	Color          string
 	ToColor        string
-	ToColorIndexes []int
+	ToColorIndexes [][]int
 	Banner         string
 	ErrorMsg       string
 }

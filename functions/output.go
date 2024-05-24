@@ -8,8 +8,7 @@ import (
 // OutputBuilder builds the output string
 func OutputBuilder() {
 	result := ""
-	index := 0
-	for _, part := range OptionsData.SplicedInput {
+	for j, part := range OptionsData.SplicedInput {
 		if OptionsData.ErrorMsg != "" {
 			break
 		}
@@ -19,6 +18,8 @@ func OutputBuilder() {
 			continue
 		}
 		count := 0
+		index := 0
+		lastAdded := -1
 		for count < 8 {
 			if OptionsData.ErrorMsg != "" {
 				break
@@ -38,26 +39,27 @@ func OutputBuilder() {
 					continue
 				}
 
-				if index+1 > len(OptionsData.ToColorIndexes) {
+				if j >= len(OptionsData.ToColorIndexes) || OptionsData.ToColorIndexes[j] == nil || len(OptionsData.ToColorIndexes[j]) == 0 {
 					result += Font[letter][count]
 					continue
 				}
 
-				first := OptionsData.ToColorIndexes[index]
-				last := OptionsData.ToColorIndexes[index+1]
-
-				if i >= first && i <= last {
-					result += OptionsData.Color + Font[letter][count]
-
-					if i == last {
-						result += Colors["reset"]
-					}
-				} else {
+				if index >= len(OptionsData.ToColorIndexes[j]) {
 					result += Font[letter][count]
+					continue
 				}
 
-				if i == last && count == 7 {
-					index += 2
+				for k := 0; k < len(OptionsData.ToColorIndexes[j]); k += 2 {
+					if i == lastAdded {
+						continue
+					}
+					if i >= OptionsData.ToColorIndexes[j][k] && i <= OptionsData.ToColorIndexes[j][k+1] {
+						result += OptionsData.Color + Font[letter][count] + Colors["reset"]
+					} else {
+						result += Font[letter][count]
+					}
+
+					lastAdded = i
 				}
 			}
 

@@ -102,7 +102,7 @@ func ToColorIndexes() {
 		return
 	}
 
-	for i := 0; i < len(OptionsData.Input)-len(OptionsData.ToColor); i++ {
+	for i := 0; i < len(OptionsData.Input)-len(OptionsData.ToColor)+1; i++ {
 		if OptionsData.Input[i:i+len(OptionsData.ToColor)] == OptionsData.ToColor {
 			OptionsData.ToColorIndexes = append(OptionsData.ToColorIndexes, []int{i, i + len(OptionsData.ToColor) - 1})
 			i += len(OptionsData.ToColor) - 1

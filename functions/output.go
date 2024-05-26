@@ -3,29 +3,36 @@ package functions
 import (
 	"fmt"
 	"os"
+	"slices"
 	"strings"
 )
 
 // OutputBuilder builds the output string
 func OutputBuilder() {
 	result := []string{}
+	newLines := NewLineIndices()
 	tempStr := ""
-	newLine := -1
 	for j := 0; j < 8; j++ {
 		PartToColor := 0
-		for i := 0; i < len(OptionsData.Input); i++ {
-			if i == newLine {
-				result = append(result, tempStr)
-				tempStr = ""
-				i += 1
-				continue
-			}
+		k := 0
 
-			if i < len(OptionsData.Input)-1 && OptionsData.Input[i:i+2] == "\\n" {
-				result = append(result, tempStr)
+		for i := 0; i < len(OptionsData.Input); i++ {
+			if slices.Contains(newLines, i) {
+				if k > len(result)-1 {
+					if tempStr != "" {
+						result = append(result, tempStr+"\n")
+					}
+					if j == 7 {
+						result = append(result, "\n")
+					}
+				} else {
+					if tempStr != "\n" && tempStr != "" {
+						result[k] += tempStr + "\n"
+					}
+				}
 				tempStr = ""
-				newLine = i
 				i += 1
+				k++
 				continue
 			}
 
@@ -34,7 +41,7 @@ func OutputBuilder() {
 				continue
 			}
 
-			if OptionsData.ToColorIndexes == nil || len(OptionsData.ToColorIndexes) == 0  {
+			if OptionsData.ToColorIndexes == nil || len(OptionsData.ToColorIndexes) == 0 {
 				tempStr += OptionsData.Color + Font[rune(OptionsData.Input[i])][j] + Colors["reset"]
 				continue
 			}
@@ -56,10 +63,32 @@ func OutputBuilder() {
 				PartToColor++
 			}
 		}
-		tempStr += "\n"
+		if tempStr != "" {
+			tempStr += "\n"
+		}
+
+		if k > len(result)-1 {
+			if tempStr != "" {
+				result = append(result, tempStr)
+			}
+
+			if j == 7 {
+				result = append(result, "\n")
+			}
+		} else {
+			if tempStr != "" {
+				result[k] += tempStr
+			}
+
+		}
+		tempStr = ""
 	}
 	
-	OptionsData.Output = strings.Join(result, "") + "\n"
+	if isSuccessive(result) {
+		result = result[:len(result)-1]
+	}
+
+	OptionsData.Output = strings.Join(result, "")
 }
 
 // OutputDeliver delivers the output to the console

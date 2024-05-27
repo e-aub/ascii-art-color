@@ -14,7 +14,7 @@ func OutputBuilder() {
 	for _, part := range OptionsData.SplicedInput {
 		if part == "\\n" {
 			result += "\n"
-			tracker++
+			tracker += 2
 			continue
 		}
 		count := 0

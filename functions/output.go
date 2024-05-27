@@ -24,7 +24,7 @@ func OutputBuilder() {
 			for i, letter := range part {
 				currentIndex := i + tracker
 				if inRange(currentIndex) {
-					result.WriteString(result.String() + OptionsData.Color + Font[letter][count] + "\033[0m")
+					result.WriteString(OptionsData.Color + Font[letter][count] + "\033[0m")
 				} else {
 					result.WriteString(Font[letter][count])
 				}

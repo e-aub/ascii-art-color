@@ -99,6 +99,7 @@ func RandomColor() {
 
 func ToColorIndexes() {
 	if OptionsData.ToColor == "" {
+		OptionsData.ToColorIndexes = nil
 		return
 	}
 

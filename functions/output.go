@@ -8,6 +8,10 @@ import (
 
 // OutputBuilder builds the output string
 func OutputBuilder() {
+	if OptionsData.ToColorIndexes == nil {
+		OptionsData.ToColorIndexes = append(OptionsData.ToColorIndexes, []int{0, len(OptionsData.Input) - 1})
+		fmt.Println(OptionsData.ToColorIndexes)
+	}
 	var result strings.Builder
 	tracker := 0
 	j := 0

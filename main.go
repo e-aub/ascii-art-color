@@ -47,8 +47,4 @@ func main() {
 	}
 	// Deliver the output to the console
 	f.OutputDeliver()
-	if f.OptionsData.ErrorMsg != "" {
-		fmt.Println(f.OptionsData.ErrorMsg)
-		return
-	}
 }

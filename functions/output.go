@@ -3,92 +3,51 @@ package functions
 import (
 	"fmt"
 	"os"
-	"slices"
-	"strings"
 )
 
 // OutputBuilder builds the output string
 func OutputBuilder() {
-	result := []string{}
-	newLines := NewLineIndices()
-	tempStr := ""
-	for j := 0; j < 8; j++ {
-		PartToColor := 0
-		k := 0
+	result := ""
+	tracker := 0
+	j := 0
 
-		for i := 0; i < len(OptionsData.Input); i++ {
-			if slices.Contains(newLines, i) {
-				if k > len(result)-1 {
-					if tempStr != "" {
-						result = append(result, tempStr+"\n")
-					}
-					if j == 7 {
-						result = append(result, "\n")
-					}
+	for _, part := range OptionsData.SplicedInput {
+		if part == "\\n" {
+			result += "\n"
+			tracker++
+			continue
+		}
+		count := 0
+		for count < 8 {
+			j = 0
+			for i, letter := range part {
+				currentIndex := i + tracker
+				if inRange(currentIndex) {
+					result = result + OptionsData.Color + Font[letter][count] + "\033[0m"
 				} else {
-					if tempStr != "\n" && tempStr != "" {
-						result[k] += tempStr + "\n"
-					}
+					result += Font[letter][count]
 				}
-				tempStr = ""
-				i += 1
-				k++
-				continue
+				if j < len(OptionsData.ToColorIndexes) && currentIndex == OptionsData.ToColorIndexes[j][1] {
+					j++
+				}
 			}
-
-			if OptionsData.Color == "" {
-				tempStr += Font[rune(OptionsData.Input[i])][j]
-				continue
-			}
-
-			if OptionsData.ToColorIndexes == nil || len(OptionsData.ToColorIndexes) == 0 {
-				tempStr += OptionsData.Color + Font[rune(OptionsData.Input[i])][j] + Colors["reset"]
-				continue
-			}
-
-			if PartToColor >= len(OptionsData.ToColorIndexes) {
-				tempStr += Font[rune(OptionsData.Input[i])][j]
-				continue
-			}
-
-			first := OptionsData.ToColorIndexes[PartToColor][0]
-			last := OptionsData.ToColorIndexes[PartToColor][1]
-
-			if i >= first && i <= last {
-				tempStr += OptionsData.Color + Font[rune(OptionsData.Input[i])][j] + Colors["reset"]
-			} else {
-				tempStr += Font[rune(OptionsData.Input[i])][j]
-			}
-			if i == last {
-				PartToColor++
-			}
-		}
-		if tempStr != "" {
-			tempStr += "\n"
+			result += "\n"
+			count++
 		}
 
-		if k > len(result)-1 {
-			if tempStr != "" {
-				result = append(result, tempStr)
-			}
-
-			if j == 7 {
-				result = append(result, "\n")
-			}
-		} else {
-			if tempStr != "" {
-				result[k] += tempStr
-			}
-
-		}
-		tempStr = ""
-	}
-	
-	if isSuccessive(result) {
-		result = result[:len(result)-1]
+		tracker += len(part) + 2
 	}
 
-	OptionsData.Output = strings.Join(result, "")
+	OptionsData.Output = result
+}
+
+func inRange(index int) bool {
+	for _, pair := range OptionsData.ToColorIndexes {
+		if index >= pair[0] && index <= pair[1] {
+			return true
+		}
+	}
+	return false
 }
 
 // OutputDeliver delivers the output to the console

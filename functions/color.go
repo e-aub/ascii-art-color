@@ -110,3 +110,7 @@ func ToColorIndexes() {
 	}
 	fmt.Println(OptionsData.ToColorIndexes)
 }
+
+func namedColor() {
+
+}

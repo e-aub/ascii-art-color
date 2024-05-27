@@ -3,17 +3,18 @@ package functions
 import (
 	"fmt"
 	"os"
+	"strings"
 )
 
 // OutputBuilder builds the output string
 func OutputBuilder() {
-	result := ""
+	var result strings.Builder
 	tracker := 0
 	j := 0
 
 	for _, part := range OptionsData.SplicedInput {
 		if part == "\\n" {
-			result += "\n"
+			result.WriteString("\n")
 			tracker += 2
 			continue
 		}
@@ -23,22 +24,22 @@ func OutputBuilder() {
 			for i, letter := range part {
 				currentIndex := i + tracker
 				if inRange(currentIndex) {
-					result = result + OptionsData.Color + Font[letter][count] + "\033[0m"
+					result.WriteString(result.String() + OptionsData.Color + Font[letter][count] + "\033[0m")
 				} else {
-					result += Font[letter][count]
+					result.WriteString(Font[letter][count])
 				}
 				if j < len(OptionsData.ToColorIndexes) && currentIndex == OptionsData.ToColorIndexes[j][1] {
 					j++
 				}
 			}
-			result += "\n"
+			result.WriteString("\n")
 			count++
 		}
 
 		tracker += len(part) + 2
 	}
 
-	OptionsData.Output = result
+	OptionsData.Output = result.String()
 }
 
 func inRange(index int) bool {

@@ -9,43 +9,44 @@ import (
 )
 
 func mainCopy(args []string) string {
-	f.FlagChecker(args)
-	if f.OptionsData.ErrorMsg != "" {
-		return f.OptionsData.ErrorMsg
+	f.Params.Args = args
+	f.FlagChecker()
+	if f.Params.ErrorMsg != "" {
+		return f.Params.ErrorMsg
 	}
 	f.ArgsChecker()
-	if f.OptionsData.ErrorMsg != "" {
+	if f.Params.ErrorMsg != "" {
 		fmt.Println()
-		return f.OptionsData.ErrorMsg
+		return f.Params.ErrorMsg
 	}
 
-	if f.OptionsData.Input == "" {
+	if f.Params.Input == "" {
 		return ""
 	}
 
 	f.Minimize()
-	if f.OptionsData.ErrorMsg != "" {
-		return f.OptionsData.ErrorMsg
+	if f.Params.ErrorMsg != "" {
+		return f.Params.ErrorMsg
 	}
 
 	f.MapFont()
-	if f.OptionsData.ErrorMsg != "" {
-		return f.OptionsData.ErrorMsg
+	if f.Params.ErrorMsg != "" {
+		return f.Params.ErrorMsg
 	}
 
 	f.Split()
 	f.OutputBuilder()
-	if f.OptionsData.ErrorMsg != "" {
-		return f.OptionsData.ErrorMsg
+	if f.Params.ErrorMsg != "" {
+		return f.Params.ErrorMsg
 	}
 
-	if f.OptionsData.OutputFile != "" {
+	if f.Params.OutputFile != "" {
 		f.OutputDeliver()
-		if f.OptionsData.ErrorMsg != "" {
-			return f.OptionsData.ErrorMsg
+		if f.Params.ErrorMsg != "" {
+			return f.Params.ErrorMsg
 		}
 	} else {
-		return f.OptionsData.Output
+		return f.Params.Output
 	}
 
 	return ""

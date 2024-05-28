@@ -7,15 +7,11 @@ import (
 )
 
 // OutputBuilder builds the output string
+
 func OutputBuilder() {
-	if OptionsData.ToColorIndexes == nil {
-		OptionsData.ToColorIndexes = append(OptionsData.ToColorIndexes, []int{0, len(OptionsData.Input) - 1})
-	}
 	var result strings.Builder
 	tracker := 0
-	j := 0
-
-	for _, part := range OptionsData.SplicedInput {
+	for _, part := range Params.SplicedInput {
 		if part == "\\n" {
 			result.WriteString("\n")
 			tracker += 2
@@ -23,17 +19,14 @@ func OutputBuilder() {
 		}
 		count := 0
 		for count < 8 {
-			j = 0
 			for i, letter := range part {
 				currentIndex := i + tracker
-				if inRange(currentIndex) {
-					result.WriteString(OptionsData.Color + Font[letter][count] + "\033[0m")
+				if InRange(currentIndex) {
+					result.WriteString(Params.Color + Font[letter][count] + Colors["reset"])
 				} else {
 					result.WriteString(Font[letter][count])
 				}
-				if j < len(OptionsData.ToColorIndexes) && currentIndex == OptionsData.ToColorIndexes[j][1] {
-					j++
-				}
+
 			}
 			result.WriteString("\n")
 			count++
@@ -42,32 +35,23 @@ func OutputBuilder() {
 		tracker += len(part) + 2
 	}
 
-	OptionsData.Output = result.String()
-}
-
-func inRange(index int) bool {
-	for _, pair := range OptionsData.ToColorIndexes {
-		if index >= pair[0] && index <= pair[1] {
-			return true
-		}
-	}
-	return false
+	Params.Output = result.String()
 }
 
 // OutputDeliver delivers the output to the console
 func OutputDeliver() {
-	if OptionsData.OutputFile == "" {
-		fmt.Print(OptionsData.Output)
+	if Params.OutputFile == "" {
+		fmt.Print(Params.Output)
 	} else {
-		file, err := os.Create(OptionsData.OutputFile)
+		file, err := os.Create(Params.OutputFile)
 		if err != nil {
-			OptionsData.ErrorMsg = err.Error()
+			Params.ErrorMsg = err.Error()
 			return
 		}
 		defer file.Close()
-		_, err = file.WriteString(OptionsData.Output)
+		_, err = file.WriteString(Params.Output)
 		if err != nil {
-			OptionsData.ErrorMsg = err.Error()
+			Params.ErrorMsg = err.Error()
 			return
 		}
 	}

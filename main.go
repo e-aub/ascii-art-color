@@ -8,18 +8,19 @@ import (
 
 func main() {
 	// Check if the provided flags and args are valid
-	f.FlagChecker(os.Args[1:])
-	if f.OptionsData.ErrorMsg != "" {
-		fmt.Println(f.OptionsData.ErrorMsg)
+	f.Params.Args = os.Args[1:]
+	f.FlagChecker()
+	if f.Params.ErrorMsg != "" {
+		fmt.Println(f.Params.ErrorMsg)
 		return
 	}
 	f.ArgsChecker()
-	if f.OptionsData.ErrorMsg != "" {
-		fmt.Println(f.OptionsData.ErrorMsg)
+	if f.Params.ErrorMsg != "" {
+		fmt.Println(f.Params.ErrorMsg)
 		return
 	}
 
-	if f.OptionsData.Input == "" {
+	if f.Params.Input == "" {
 		return
 	}
 
@@ -27,22 +28,22 @@ func main() {
 
 	// Minimize the input string
 	f.Minimize()
-	if f.OptionsData.ErrorMsg != "" {
-		fmt.Println(f.OptionsData.ErrorMsg)
+	if f.Params.ErrorMsg != "" {
+		fmt.Println(f.Params.ErrorMsg)
 		return
 	}
 	// Map the input string to the selected font
 	f.MapFont()
-	if f.OptionsData.ErrorMsg != "" {
-		fmt.Println(f.OptionsData.ErrorMsg)
+	if f.Params.ErrorMsg != "" {
+		fmt.Println(f.Params.ErrorMsg)
 		return
 	}
 	// Split the input string and Build the output
 	f.Split()
 
 	f.OutputBuilder()
-	if f.OptionsData.ErrorMsg != "" {
-		fmt.Println(f.OptionsData.ErrorMsg)
+	if f.Params.ErrorMsg != "" {
+		fmt.Println(f.Params.ErrorMsg)
 		return
 	}
 	// Deliver the output to the console

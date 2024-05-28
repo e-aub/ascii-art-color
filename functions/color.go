@@ -3,6 +3,7 @@ package functions
 import (
 	"fmt"
 	"math/rand"
+	"strconv"
 	"time"
 )
 
@@ -98,20 +99,48 @@ func RandomColor() {
 }
 
 func ToColorIndexes() {
-	if OptionsData.ToColor == "" {
-		OptionsData.ToColorIndexes = nil
+	if Params.ToColor == "" && Params.Color != "" {
+		Params.ToColorIndexes = append(Params.ToColorIndexes, []int{0, len(Params.Input) - 1})
+		return
+	} else if Params.ToColor == "" {
+		Params.ToColorIndexes = nil
 		return
 	}
 
-	for i := 0; i < len(OptionsData.Input)-len(OptionsData.ToColor)+1; i++ {
-		if OptionsData.Input[i:i+len(OptionsData.ToColor)] == OptionsData.ToColor {
-			OptionsData.ToColorIndexes = append(OptionsData.ToColorIndexes, []int{i, i + len(OptionsData.ToColor) - 1})
-			i += len(OptionsData.ToColor) - 1
+	for i := 0; i < len(Params.Input)-len(Params.ToColor)+1; i++ {
+		if Params.Input[i:i+len(Params.ToColor)] == Params.ToColor {
+			Params.ToColorIndexes = append(Params.ToColorIndexes, []int{i, i + len(Params.ToColor) - 1})
+			i += len(Params.ToColor) - 1
 		}
 	}
-	fmt.Println(OptionsData.ToColorIndexes)
 }
 
-func namedColor() {
+func InRange(index int) bool {
+	for _, pair := range Params.ToColorIndexes {
+		if index >= pair[0] && index <= pair[1] {
+			return true
+		}
+	}
+	return false
+}
+
+func HexToRgb(hexColor string) string {
+	r, err := strconv.ParseInt(hexColor[1:3], 16, 64)
+	if err != nil {
+		Params.ErrorMsg = err.Error()
+	}
+	g, err := strconv.ParseInt(hexColor[3:5], 16, 64)
+	if err != nil {
+		Params.ErrorMsg = err.Error()
+	}
+	b, err := strconv.ParseInt(hexColor[5:7], 16, 64)
+	if err != nil {
+		Params.ErrorMsg = err.Error()
+	}
+	return fmt.Sprintf("%d;%d;%d", r, g, b)
+
+}
+
+func NamedColor() {
 
 }

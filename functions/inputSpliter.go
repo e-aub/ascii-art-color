@@ -3,7 +3,7 @@ package functions
 import "strings"
 
 func Split() {
-	result := strings.Split(OptionsData.Input, "\\n")
+	result := strings.Split(Params.Input, "\\n")
 	for index, line := range result {
 		if line == "" {
 			result[index] = "\\n"
@@ -12,7 +12,7 @@ func Split() {
 	if isSuccessive(result) {
 		result = result[:len(result)-1]
 	}
-	OptionsData.SplicedInput = result
+	Params.SplicedInput = result
 }
 
 func isSuccessive(str []string) bool {

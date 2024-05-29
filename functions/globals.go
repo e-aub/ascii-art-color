@@ -2,6 +2,7 @@ package functions
 
 import (
 	"regexp"
+	"strings"
 )
 
 // Options struct contains the options for the program
@@ -26,7 +27,7 @@ var (
 	OutputCheck   = regexp.MustCompile(`^(?:--output=)(.+.txt)$`)
 	ColorPattern  = regexp.MustCompile(`^-{1,2}color`)
 	ColorCheck    = regexp.MustCompile(`^(?:--color=)(.+)$`)
-	ValidBanner   = regexp.MustCompile(`^standard|shadow|enigma|nirvana|standard.txt|shadow.txt|enigma.txt|nirvana.txt$`)
+	ValidBanner   = regexp.MustCompile(`^standard$|^shadow$|^enigma$|^nirvana$|^standard.txt$|^shadow.txt$|^enigma.txt$|^nirvana.txt$`)
 	RgbPattern    = regexp.MustCompile(`^rgb\(`)
 	RgbCheck      = regexp.MustCompile(`^rgb\((\d{1,3}), (\d{1,3}), (\d{1,3})\)$`)
 	HexPattern    = regexp.MustCompile(`^#`)
@@ -46,14 +47,15 @@ var Errors map[string]string = map[string]string{
 }
 
 func AvailableColors() string {
-	str := "Available colors:\n\n"
+	var str strings.Builder
+	str.WriteString("Available colors:\n\n")
 	for name, color := range Colors {
 		if name == "reset" || color == "" {
 			continue
 		}
-		str += "\033[38;2;" + color + "m" + name + Colors["reset"] + ", "
+		str.WriteString("\033[38;2;" + color + "m" + name + Colors["reset"] + ", ")
 	}
-	return str
+	return str.String()
 }
 
 var Colors map[string]string = map[string]string{

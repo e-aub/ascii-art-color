@@ -11,13 +11,13 @@ import (
 func mainCopy(args []string) string {
 	f.Params.Args = args
 	f.FlagChecker()
-	if f.Params.ErrorMsg != "" {
-		return f.Params.ErrorMsg
+	if f.Params.Err != nil {
+		return f.Params.Err.Error()
 	}
 	f.ArgsChecker()
-	if f.Params.ErrorMsg != "" {
+	if f.Params.Err != nil {
 		fmt.Println()
-		return f.Params.ErrorMsg
+		return f.Params.Err.Error()
 	}
 
 	if f.Params.Input == "" {
@@ -25,25 +25,25 @@ func mainCopy(args []string) string {
 	}
 
 	f.Minimize()
-	if f.Params.ErrorMsg != "" {
-		return f.Params.ErrorMsg
+	if f.Params.Err != nil {
+		return f.Params.Err.Error()
 	}
 
 	f.MapFont()
-	if f.Params.ErrorMsg != "" {
-		return f.Params.ErrorMsg
+	if f.Params.Err != nil {
+		return f.Params.Err.Error()
 	}
 
 	f.Split()
 	f.OutputBuilder()
-	if f.Params.ErrorMsg != "" {
-		return f.Params.ErrorMsg
+	if f.Params.Err != nil {
+		return f.Params.Err.Error()
 	}
 
 	if f.Params.OutputFile != "" {
 		f.OutputDeliver()
-		if f.Params.ErrorMsg != "" {
-			return f.Params.ErrorMsg
+		if f.Params.Err != nil {
+			return f.Params.Err.Error()
 		}
 	} else {
 		return f.Params.Output

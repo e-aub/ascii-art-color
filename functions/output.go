@@ -1,13 +1,13 @@
 package functions
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"strings"
 )
 
 // OutputBuilder builds the output string
-
 func OutputBuilder() {
 	var result strings.Builder
 	tracker := 0
@@ -45,13 +45,13 @@ func OutputDeliver() {
 	} else {
 		file, err := os.Create(Params.OutputFile)
 		if err != nil {
-			Params.ErrorMsg = err.Error()
+			Params.Err = errors.New("internal")
 			return
 		}
 		defer file.Close()
 		_, err = file.WriteString(Params.Output)
 		if err != nil {
-			Params.ErrorMsg = err.Error()
+			Params.Err = errors.New("internal")
 			return
 		}
 	}

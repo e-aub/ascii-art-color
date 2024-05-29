@@ -1,6 +1,7 @@
 package functions
 
 import (
+	"errors"
 	"sort"
 	"strings"
 )
@@ -10,7 +11,7 @@ func Minimize() {
 	var result []rune
 	for _, letter := range str {
 		if letter < ' ' || letter > '~' {
-			Params.ErrorMsg = "Invalid Character (" + string(letter) + ")\n\nThe characters must be between ' ' and '~'"
+			Params.Err = errors.New("char")
 			return
 		}
 		if !strings.Contains(string(result), string(letter)) {

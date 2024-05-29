@@ -144,3 +144,7 @@ func HexToRgb(hexColor string) string {
 func NamedColor() {
 
 }
+
+func RGB() {
+	
+}

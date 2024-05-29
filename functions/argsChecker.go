@@ -16,7 +16,7 @@ func FlagChecker() {
 	outputCheck := regexp.MustCompile(`^(?:--output=)(.+.txt)$`)
 	colorPattern := regexp.MustCompile(`^-{1,2}color`)
 	colorCheck := regexp.MustCompile(`^(?:--color=)(\w+)$`)
-	validBanner := regexp.MustCompile(`^standard|shadow|enigma|nirvana$`)
+	validBanner := regexp.MustCompile(`^standard|shadow|enigma|nirvana|standard.txt|shadow.txt|enigma.txt|nirvana.txt$`)
 	if len(Params.Args) == 1 {
 		if outputPattern.MatchString(Params.Args[0]) || colorPattern.MatchString(Params.Args[0]) {
 			UsageErr()

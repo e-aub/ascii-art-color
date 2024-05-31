@@ -60,11 +60,23 @@ func HexToRgb(hexColor string) {
 
 func RGB(color string) {
 	if match := RgbCheck.FindStringSubmatch(color); match != nil {
-		if match[1] > "255" && match[2] > "255" && match[3] > "255" {
+		r, err := strconv.ParseInt(match[1], 8, 64)
+		if err != nil {
+			Params.Err = err
+		}
+		g, err := strconv.ParseInt(match[2], 8, 64)
+		if err != nil {
+			Params.Err = err
+		}
+		b, err := strconv.ParseInt(match[3], 8, 64)
+		if err != nil {
+			Params.Err = err
+		}
+		if r > 255 && g > 255 && b > 255 {
 			Params.Err = errors.New("rgbValue")
 			return
 		}
-		Params.Color = fmt.Sprintf("\033[38;2;%s;%s;%sm", match[1], match[2], match[3])
+		Params.Color = fmt.Sprintf("\033[38;2;%d;%d;%dm", r, g, b)
 		return
 	}
 	Params.Err = errors.New("rgbFormat")

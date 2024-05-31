@@ -40,7 +40,6 @@ func FlagChecker() {
 			if strings.ToLower(color[1]) == "random" {
 				RandomColor()
 			}
-
 			if RgbPattern.MatchString(color[1]) {
 				RGB(color[1])
 			} else if HexPattern.MatchString(color[1]) {

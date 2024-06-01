@@ -31,10 +31,8 @@ func OutputBuilder() {
 			result.WriteString("\n")
 			count++
 		}
-
 		tracker += len(part) + 2
 	}
-
 	Params.Output = result.String()
 }
 

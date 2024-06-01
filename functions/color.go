@@ -63,17 +63,17 @@ func HexToRgb(hexColor string) {
 
 func RGB(color string) {
 	if match := RgbCheck.FindStringSubmatch(color); match != nil {
-		r, err := strconv.ParseInt(match[1], 8, 64)
+		r, err := strconv.Atoi(match[1])
 		if err != nil {
 			Params.Err = err
 			return
 		}
-		g, err := strconv.ParseInt(match[2], 8, 64)
+		g, err := strconv.Atoi(match[2])
 		if err != nil {
 			Params.Err = err
 			return
 		}
-		b, err := strconv.ParseInt(match[3], 8, 64)
+		b, err := strconv.Atoi(match[3])
 		if err != nil {
 			Params.Err = err
 			return

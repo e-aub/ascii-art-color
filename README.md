@@ -1,4 +1,4 @@
-# ascii-art-output
+# ascii-art-color
 
 Description
 ===========
@@ -43,13 +43,13 @@ To run this project, you must follow the instructions provided below:
 
 1. clone the directry to your device
 ```bash
-git clone https://learn.zone01oujda.ma/git/mouchkhi/ascii-art-output.git
+git clone https://learn.zone01oujda.ma/git/mouchkhi/ascii-art-color.git
 ```
 2. enter the directry
 ```bash
-cd ascii-art-output
+cd ascii-art-color
 ```
-3. run the follwing command : <go run . [OPTION] [STRING] [BANNER]>
+3. run the follwing command : <go run . [OPTION] [STRING]>
 ```bash
-go run . --output=<fileName.txt> something standard
+ go run . --color=<color> <letters to be colored> "something"
 ```

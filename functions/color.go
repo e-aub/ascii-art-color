@@ -75,7 +75,7 @@ func RGB(color string) {
 			Params.Err = err
 			return
 		}
-		if r > 255 && g > 255 && b > 255 {
+		if r > 255 || g > 255 || b > 255 {
 			Params.Err = errors.New("rgbValue")
 			return
 		}

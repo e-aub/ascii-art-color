@@ -33,9 +33,9 @@ _|       _|    _| _| _|    _| _|    _|    _| _|    _|
 Authors
 =======
 This project was created by:
+Oussama Amyay [@oamyay]
 Mohammed Ouchkhi [@mouchkhi]
 Ayoub El Haddad [@aelhadda]
-Oussama Amyay [@oamyay]
 
 Usage:
 ==================
@@ -43,7 +43,7 @@ To run this project, you must follow the instructions provided below:
 
 1. clone the directry to your device
 ```bash
-git clone https://learn.zone01oujda.ma/git/mouchkhi/ascii-art-color.git
+git clone https://learn.zone01oujda.ma/git/oamyay/ascii-art-color.git
 ```
 2. enter the directry
 ```bash

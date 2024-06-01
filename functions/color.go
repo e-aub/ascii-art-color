@@ -43,14 +43,17 @@ func HexToRgb(hexColor string) {
 		r, err := strconv.ParseInt(hexColor[1:3], 16, 64)
 		if err != nil {
 			Params.Err = err
+			return
 		}
 		g, err := strconv.ParseInt(hexColor[3:5], 16, 64)
 		if err != nil {
 			Params.Err = err
+			return
 		}
 		b, err := strconv.ParseInt(hexColor[5:7], 16, 64)
 		if err != nil {
 			Params.Err = err
+			return
 		}
 		Params.Color = fmt.Sprintf("\033[38;2;%d;%d;%dm", r, g, b)
 		return
@@ -63,16 +66,19 @@ func RGB(color string) {
 		r, err := strconv.ParseInt(match[1], 8, 64)
 		if err != nil {
 			Params.Err = err
+			return
 		}
 		g, err := strconv.ParseInt(match[2], 8, 64)
 		if err != nil {
 			Params.Err = err
+			return
 		}
 		b, err := strconv.ParseInt(match[3], 8, 64)
 		if err != nil {
 			Params.Err = err
+			return
 		}
-		if r > 255 && g > 255 && b > 255 {
+		if r > 255 || g > 255 || b > 255 {
 			Params.Err = errors.New("rgbValue")
 			return
 		}
